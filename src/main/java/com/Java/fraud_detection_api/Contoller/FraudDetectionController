@@ -1,0 +1,43 @@
+package com.bhargey.frauddetectionapi.controller;
+
+import com.bhargey.frauddetectionapi.dto.TransactionRequest;
+import com.bhargey.frauddetectionapi.service.FraudDetectionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/fraud")
+@CrossOrigin(origins = "*") // Allow requests from any origin
+public class FraudDetectionController {
+
+    @Autowired
+    private FraudDetectionService fraudDetectionService;
+
+    @PostMapping("/check")
+    public ResponseEntity<Map<String, Object>> checkTransaction(@RequestBody TransactionRequest transactionRequest) {
+        boolean isFraud = fraudDetectionService.isFraudulent(transactionRequest);
+        
+        Map<String, Object> response = new HashMap<>();
+        if (isFraud) {
+            response.put("result", "FRAUD_DETECTED");
+            response.put("message", "This transaction is highly likely to be fraudulent.");
+            response.put("score", 0.95); // Example score
+        } else {
+            response.put("result", "LEGITIMATE");
+            response.put("message", "This transaction appears to be legitimate.");
+            response.put("score", 0.15); // Example score
+        }
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    // Health check endpoint
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Service is running");
+    }
+}
