@@ -12,18 +12,25 @@ public class FraudDetectionController {
     @Autowired
     private FraudDetectionService fraudDetectionService;
 
-    // GET endpoint for quick testing
+    // GET endpoint for quick rule-based test
     @GetMapping("/check")
     public String checkTransactionGet(
             @RequestParam Double amount,
-            @RequestParam Integer hourOfDay) {
-        return fraudDetectionService.checkTransaction(amount, hourOfDay);
+            @RequestParam(name = "hourOfDay", required = false) Integer hourOfDay,
+            @RequestParam(name = "hour", required = false) Integer hour) {
+
+        Integer finalHour = (hourOfDay != null) ? hourOfDay : hour;
+
+        if (finalHour == null) {
+            return "❌ Missing required parameter: hourOfDay or hour";
+        }
+
+        return fraudDetectionService.checkTransaction(amount, finalHour);
     }
 
-    // POST endpoint for production use
+    // POST endpoint for ML-based check
     @PostMapping("/check")
-    public String checkTransactionPost(
-            @RequestBody TransactionRequest request) {
-        return fraudDetectionService.checkTransaction(request);
+    public String checkTransactionPost(@RequestBody TransactionRequest request) {
+        return fraudDetectionService.checkTransaction(request);  // ML service called here
     }
 }
