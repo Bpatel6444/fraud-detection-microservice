@@ -1,12 +1,17 @@
 package com.Java.fraud_detection_api.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Java.fraud_detection_api.Dto.TransactionRequest;
 
-@Service // This tells Spring this is a service component
+@Service
 public class FraudDetectionService {
 
+    @Autowired
+    private MlClientService mlClientService;
+
+    // Optional: Keep rule-based quick check
     public String checkTransaction(Double amount, Integer hourOfDay) {
         boolean isHighAmount = amount != null && amount > 100000.0;
         boolean isUnusualTime = hourOfDay != null && (hourOfDay >= 1 && hourOfDay <= 5);
@@ -22,8 +27,8 @@ public class FraudDetectionService {
         }
     }
 
+    // New method: call Python ML service
     public String checkTransaction(TransactionRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkTransaction'");
+        return mlClientService.checkTransactionWithML(request.getAmount(), request.getHourOfDay());
     }
 }
