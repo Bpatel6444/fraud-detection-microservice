@@ -57,7 +57,7 @@ Make sure you have installed:
 1. Install dependencies:
    ```bash
    pip install flask flask-cors scikit-learn joblib pandas numpy
-````
+
 
 2. Train the ML model:
 
@@ -256,6 +256,7 @@ This project is licensed under the **MIT License**.
 
 Developed by **Bhargey**
 Designed for **real-time fraud detection demo with ML + microservices** 🚀
+
 
 
 
