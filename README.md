@@ -1,8 +1,3 @@
-Perfect 👍 Thanks for clarifying!
-Since you now want the **README** to not only describe the current Guardian fraud detection system but also show the **future direction (Financial AI Platform)** so people can contribute, here’s the **final updated README** in Markdown format — ready to paste:
-
----
-
 # 🛡️ Guardian - Fraud Detection System
 
 Guardian is a real-time fraud detection system built using a **microservices architecture**.
@@ -291,3 +286,4 @@ Designed for **real-time fraud detection** demo with **ML + microservices** 🚀
 
 
 Do you also want me to draft a short **`CONTRIBUTING.md`** so GitHub contributors know how to help (coding standards, PR process, etc.)?
+
