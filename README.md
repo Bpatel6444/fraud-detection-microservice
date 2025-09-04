@@ -285,5 +285,4 @@ Designed for **real-time fraud detection** demo with **ML + microservices** 🚀
 
 
 
-Do you also want me to draft a short **`CONTRIBUTING.md`** so GitHub contributors know how to help (coding standards, PR process, etc.)?
 
