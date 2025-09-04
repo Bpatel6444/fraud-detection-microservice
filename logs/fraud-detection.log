@@ -1,0 +1,16 @@
+2025-09-05T01:50:37.835+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] c.J.f.FraudDetectionApiApplication       : Starting FraudDetectionApiApplication using Java 17.0.16 with PID 1348 (C:\Users\Dell\Desktop\Fraud-detection\fraud-detection-microservice\target\classes started by Dell in C:\Users\Dell\Desktop\Fraud-detection\fraud-detection-microservice)
+2025-09-05T01:50:37.841+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] c.J.f.FraudDetectionApiApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-09-05T01:50:38.044+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-05T01:50:38.045+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-05T01:50:41.955+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-05T01:50:41.999+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-05T01:50:42.000+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-05T01:50:42.107+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-05T01:50:42.108+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4060 ms
+2025-09-05T01:50:43.420+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-05T01:50:43.430+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-09-05T01:50:43.806+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-05T01:50:43.849+05:30  INFO 1348 --- [fraud-detection-api] [restartedMain] c.J.f.FraudDetectionApiApplication       : Started FraudDetectionApiApplication in 8.094 seconds (process running for 10.324)
+2025-09-05T01:53:24.133+05:30  INFO 1348 --- [fraud-detection-api] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-05T01:53:24.136+05:30  INFO 1348 --- [fraud-detection-api] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-05T01:53:24.139+05:30  INFO 1348 --- [fraud-detection-api] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
