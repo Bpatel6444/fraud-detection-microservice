@@ -1,0 +1,4 @@
+Error loading model: [Errno 22] Invalid argument: 'model\\model\x08est_fraud_model.pkl'
+Error loading model: [Errno 2] No such file or directory: 'C:\\Users\\Dell\\Desktop\\Fraud-detection\\fraud-detection-microservice\\model\\model\\model\\best_fraud_model.pkl'
+Error loading model: [Errno 2] No such file or directory: 'C:\\Users\\Dell\\Desktop\\Fraud-detection\\fraud-detection-microservice\\model\\model\\models\\best_fraud_model.pkl'
+Error loading model: [Errno 2] No such file or directory: 'model/best_fraud_model.pkl'
