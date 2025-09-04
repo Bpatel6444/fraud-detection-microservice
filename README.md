@@ -1,40 +1,48 @@
+Perfect 👍 Thanks for clarifying!
+Since you now want the **README** to not only describe the current Guardian fraud detection system but also show the **future direction (Financial AI Platform)** so people can contribute, here’s the **final updated README** in Markdown format — ready to paste:
+
+---
+
 # 🛡️ Guardian - Fraud Detection System
 
-Guardian is a **real-time fraud detection system** built using a **microservices architecture**.  
+Guardian is a real-time fraud detection system built using a **microservices architecture**.
 It combines **Java Spring Boot** (for API + orchestration) and **Python Flask** (for ML predictions) to detect suspicious financial transactions.
 
 ---
 
 ## 📐 Architecture
 
-- **Java Service (Spring Boot)**  
-  - Provides REST API endpoints  
-  - Handles request validation and business logic  
-  - Forwards transactions to the Python ML service  
+### Java Service (Spring Boot)
 
-- **Python Service (Flask + ML)**  
-  - Hosts a trained **Isolation Forest** model  
-  - Accepts transaction details and returns fraud predictions  
+* Provides REST API endpoints
+* Handles request validation and business logic
+* Forwards transactions to the Python ML service
 
-- **Communication**: Java → Python via REST calls  
-- **Deployment**: Docker + Docker Compose  
+### Python Service (Flask + ML)
+
+* Hosts a trained **XGBoost model**
+* Accepts transaction details and returns fraud predictions
+
+**Communication:** Java → Python via REST calls
+**Deployment:** Docker + Docker Compose
 
 ---
 
 ## ✨ Features
 
-- Real-time fraud detection using **Isolation Forest**
-- Enhanced features:
-  - Transaction amount
-  - Hour of day
-  - Merchant category
-  - Distance from home
-  - Transaction count in last hour
-- **Dual detection**:  
-  - Rule-based checks in Java  
-  - ML-based anomaly detection in Python
-- Dockerized microservices for easy deployment
-- Health checks (`/health`) and monitoring endpoints
+* Real-time fraud detection using **XGBoost**
+* Features engineered from data:
+
+  * PCA components (V1–V28)
+  * Transaction amount (log-scaled)
+  * Time-based features (hour of day, day of week, weekend flag)
+  * Rolling statistics (mean/std placeholders)
+* Dual detection pipeline:
+
+  * Rule-based checks in Java
+  * ML-based anomaly detection in Python
+* Dockerized microservices for easy deployment
+* Health checks (`/health`) and monitoring endpoints
 
 ---
 
@@ -42,11 +50,11 @@ It combines **Java Spring Boot** (for API + orchestration) and **Python Flask** 
 
 Make sure you have installed:
 
-- Java 17+
-- Maven
-- Python 3.8+
-- pip
-- Docker & Docker Compose (for containerized deployment)
+* Java 17+
+* Maven
+* Python 3.8+
+* pip
+* Docker & Docker Compose (for containerized deployment)
 
 ---
 
@@ -54,28 +62,29 @@ Make sure you have installed:
 
 ### 1️⃣ Python ML Service
 
-1. Install dependencies:
-   ```bash
-   pip install flask flask-cors scikit-learn joblib pandas numpy
+Install dependencies:
 
+```bash
+pip install flask flask-cors scikit-learn joblib pandas numpy xgboost lightgbm
+```
 
-2. Train the ML model:
+Train the ML model:
 
-   ```bash
-   python model/enhanced_train_model.py
-   ```
+```bash
+python model/train_model.py
+```
 
-   This will generate:
+This will generate:
 
-   ```
-   model/enhanced_isolation_forest.pkl
-   ```
+* `models/best_fraud_model.pkl`
+* `models/features.pkl`
+* `models/metadata.pkl`
 
-3. Start the Flask app:
+Start the Flask app:
 
-   ```bash
-   python model/app.py
-   ```
+```bash
+python model/app.py
+```
 
 👉 Runs at: `http://localhost:5000`
 
@@ -83,23 +92,23 @@ Make sure you have installed:
 
 ### 2️⃣ Java Service (Spring Boot)
 
-1. Build the application:
+Build the application:
 
-   ```bash
-   mvn clean package
-   ```
+```bash
+mvn clean package
+```
 
-   The JAR file will be created in:
+The JAR file will be created in:
 
-   ```
-   target/fraud-detection-api-0.0.1-SNAPSHOT.jar
-   ```
+```
+target/fraud-detection-api-0.0.1-SNAPSHOT.jar
+```
 
-2. Run the JAR:
+Run the JAR:
 
-   ```bash
-   java -jar target/fraud-detection-api-0.0.1-SNAPSHOT.jar
-   ```
+```bash
+java -jar target/fraud-detection-api-0.0.1-SNAPSHOT.jar
+```
 
 👉 Runs at: `http://localhost:8080`
 
@@ -107,53 +116,61 @@ Make sure you have installed:
 
 ## 📡 API Usage
 
-### Java Service Endpoints
+### ✅ Java Service Endpoints
 
-#### ✅ Rule-based check
+**Rule-based check**
 
 ```http
 GET /api/check?amount=150000&hourOfDay=14
 ```
 
-**Response**:
+Response:
 
 ```
 YELLOW ALERT: Potential fraud due to high amount.
 ```
 
-#### ✅ ML-based check
+**ML-based check (via Python service)**
 
 ```http
 POST /api/check
 ```
 
-**Body (JSON):**
+Body (JSON):
 
 ```json
 {
   "amount": 1000.0,
-  "hourOfDay": 14,
-  "merchantCategory": 2,
-  "distanceFromHome": 0.5,
-  "transactionCountLastHour": 3
+  "timestamp": "2023-10-05T03:30:00Z",
+  "transactionId": "txn_test",
+  "merchantId": "mcht_abc",
+  "customerId": "cust_xyz",
+  "pcaFeatures": {
+    "V1": 1.23,
+    "V2": -0.45,
+    "V3": 0.67
+  }
 }
 ```
 
-**Response (JSON):**
+Response (JSON):
 
 ```json
 {
-  "fraudProbability": 0.78,
+  "fraudProbability": 0.82,
   "isFraud": true,
-  "message": "FRAUD_DETECTED"
+  "message": "FRAUD_DETECTED",
+  "threshold": 0.74,
+  "modelType": "xgboost",
+  "featuresUsed": ["V1","V2","V3",...,"log_amount","hour_sin","dow_cos"]
 }
 ```
 
 ---
 
-### Python Service Endpoints
+### ✅ Python Service Endpoints
 
-#### ✅ Health check
+**Health check**
 
 ```http
 GET /health
@@ -165,31 +182,39 @@ Response:
 {"status": "OK"}
 ```
 
-#### ✅ Prediction
+**Prediction**
 
 ```http
 POST /predict
 ```
 
-**Body (JSON):**
+Body (JSON):
 
 ```json
 {
-  "amount": 1000.0,
-  "hourOfDay": 14,
-  "merchantCategory": 2,
-  "distanceFromHome": 0.5,
-  "transactionCountLastHour": 3
+  "amount": 10000.0,
+  "timestamp": "2023-10-05T03:30:00Z",
+  "transactionId": "txn_highrisk",
+  "merchantId": "mcht_test",
+  "customerId": "cust_test",
+  "pcaFeatures": {
+    "V1": 5.5,
+    "V2": -6.2,
+    "V3": 4.8
+  }
 }
 ```
 
-**Response:**
+Response (JSON):
 
 ```json
 {
-  "fraudProbability": 0.23,
+  "fraudProbability": 0.00008,
   "isFraud": false,
-  "message": "LEGITIMATE"
+  "message": "LEGITIMATE",
+  "threshold": 0.74,
+  "modelType": "xgboost",
+  "featuresUsed": [...]
 }
 ```
 
@@ -197,52 +222,58 @@ POST /predict
 
 ## 🐳 Docker Deployment
 
-You can run **both services** together using Docker Compose:
+Run both services together using Docker Compose:
 
-1. Build & start:
+```bash
+docker-compose up --build
+```
 
-   ```bash
-   docker-compose up --build
-   ```
+Access services:
 
-2. Access services:
-
-   * Java API → `http://localhost:8080`
-   * Python ML API → `http://localhost:5000`
+* Java API → `http://localhost:8080`
+* Python ML API → `http://localhost:5000`
 
 ---
 
 ## 📊 Model Training
 
-The model is trained with **synthetic data** including:
+The model is trained with the **Kaggle Credit Card Fraud Dataset (2013)**.
 
-* `amount`
-* `merchantCategory` (0–4)
-* `distanceFromHome`
-* `transactionCountLastHour`
-* `hourOfDay`
+Features used:
 
-Trained using:
+* PCA components (V1–V28)
+* Transaction amount (log transformed)
+* Time-based features (hour, day of week, weekend)
+* Rolling statistics (mean/std placeholders)
 
-```bash
-python model/enhanced_train_model.py
-```
+Saved models:
 
-Saved model:
+* `models/best_fraud_model.pkl`
+* `models/features.pkl`
+* `models/metadata.pkl`
 
-```
-model/enhanced_isolation_forest.pkl
-```
+⚠️ **Note:** This dataset is for research/benchmarking only, not production use.
 
 ---
 
-## 🔮 Future Enhancements
+## 🔮 Future Roadmap
 
-* Use real-world transaction datasets (e.g., Kaggle Credit Card Fraud Dataset)
-* Add user behavioral profiling
-* Circuit breaker + retries for service communication
-* Authentication & security (JWT, API keys)
-* Monitoring & observability with Prometheus/Grafana
+Guardian is just the **first step**. Our vision is to evolve this into a **Next-Generation Financial AI Platform**. Planned enhancements include:
+
+1. **Neural Fraud Detection Network** – combine XGBoost, deep learning, and graph-based anomaly detection for higher accuracy.
+2. **Autonomous Compliance Engine** – real-time monitoring of financial regulations using NLP with explainable AI for auditability.
+3. **Predictive Risk Intelligence** – forecasting systemic financial risks using macroeconomic indicators and sentiment analysis.
+4. **Behavioral Biometrics & Quantum-Resistant Security** – continuous user authentication and future-proof encryption.
+5. **Unified Cognitive Dashboard** – visual insights across fraud, compliance, and risk management.
+
+We welcome contributions from:
+
+* ML engineers (model improvement & explainability)
+* Backend developers (scalable APIs, PaaS enablement)
+* Fintech/domain experts (fraud patterns, compliance rules)
+* DevOps engineers (monitoring, Kubernetes, cloud scaling)
+
+👉 Check the [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
 
 ---
 
@@ -255,10 +286,8 @@ This project is licensed under the **MIT License**.
 ## 👨‍💻 Author
 
 Developed by **Bhargey**
-Designed for **real-time fraud detection demo with ML + microservices** 🚀
+Designed for **real-time fraud detection** demo with **ML + microservices** 🚀
 
 
 
-
-
-
+Do you also want me to draft a short **`CONTRIBUTING.md`** so GitHub contributors know how to help (coding standards, PR process, etc.)?
